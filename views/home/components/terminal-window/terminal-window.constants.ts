@@ -1,0 +1,3 @@
+export const TECHNOLOGIES_INDEX_EQUALIZER = 2;
+export const TERMINAL_FADE_DELAY = 3;
+export const TERMINAL_LINE_FADE_SPEED = 10;
