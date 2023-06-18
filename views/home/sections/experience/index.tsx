@@ -6,8 +6,11 @@ import { STEP_TRANSLATION_KEYS, STEP_TRANSLATION_LIST_ITEMS_KEYS } from "./const
 import { defaultTheme } from "@/theme/default-theme";
 import BgMesh from "@/assets/images/bg-mesh.svg";
 import Image from "next/image";
+import { useState } from "react";
+import {useEventListener} from "usehooks-ts";
+import {motion} from "framer-motion";
 
-const STimelineStep = styled.div`
+const STimelineStep = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -28,6 +31,12 @@ const STimeFrame = styled.span`
   text-align: end;
   color: ${ ({ theme }) => theme.colors.gray.main };
   font-size: ${ ({ theme }) => theme.text.size.medium100 };
+`
+
+const STimeRange = styled.span`
+  font-size: ${ ({ theme }) => theme.text.size.small300 };
+  letter-spacing: ${ ({ theme }) => theme.text.spacing.wide };
+  padding-bottom: 1rem;
 `
 
 const SListTitle = styled.span`
@@ -83,34 +92,31 @@ const SMarkerWrapper = styled.div`
   gap: 1rem;
 `
 
-const SBlueLight = styled.div`
+const SBlueLight =  styled.div<{ $offsetY: number, $offsetX: number}>`
   position: absolute;
   background: radial-gradient(circle, rgba(11, 223, 255, 0.13) 0%, rgba(255, 255, 255, 0) 45%);
-  transform: scaleY(0.5) rotateX(40deg) rotateY(30deg);
-  width: 250rem;
-  height: 150rem;
-  right: -110rem;
-  top: -40rem;
+  width: 120rem;
+  height: 120rem;
+  right: ${({ $offsetX }) => `-${$offsetX/20 + 400}px` };
+  bottom: ${({ $offsetY }) => `-${$offsetY/20 + 50}px` };
 `
 
-const SPinkLight = styled.div`
+const SPinkLight =  styled.div<{ $offsetY: number, $offsetX: number}>`
   position: absolute;
   width: 120rem;
   height: 120rem;
   background: radial-gradient(circle, rgba(255, 55, 234, 0.21) 0%, rgba(255, 255, 255, 0) 48%);
-  right: -65rem;
-  top: -2rem;
-  transform: scaleY(0.8) rotateX(50deg) rotateY(170deg);
+  right: ${({ $offsetX }) => `${$offsetX/10 - 350}px` };
+  top: ${({ $offsetY }) => `-${$offsetY/10 + 100}px` };
 `
 
-const SDarkBlueLight = styled.div`
+const SDarkBlueLight = styled.div<{ $offsetY: number, $offsetX: number}>`
   position: absolute;
-  width: 200rem;
-  height: 150rem;
+  width: 120rem;
+  height: 120rem;
   background: radial-gradient(circle, rgba(11, 79, 255, 0.2) 0%, rgba(255, 255, 255, 0) 53%);
-  right: -120rem;
-  top: -60rem;
-  transform: scaleY(0.5) rotateX(40deg) rotateY(40deg);
+  right: ${({ $offsetX }) => `-${$offsetX/10 + 400}px` };
+  top: ${({ $offsetY }) => `${$offsetY/5 - 600}px` };
 `
 
 const SImage = styled(Image)`
@@ -120,33 +126,39 @@ const SImage = styled(Image)`
   z-index: ${ ({ theme }) => theme.zIndex.lowest };
 `
 
-/**
- * NOTES
- * FIXED BACKGROUNDS - must have - zajebsice wyglada z glass design
- *
- */
 export const Experience = () => {
     const { t } = useTranslation('experience')
+    const [positionY, setPositionY] = useState(0);
+    const [positionX, setPositionX] = useState(0);
+
+    useEventListener('mousemove', e => {
+        setPositionY(e.screenY)
+        setPositionX(e.screenX)
+    })
+
     return (
         <SectionLayout
-            absoluteChildren={ <SImage src={ BgMesh } alt="" layout="fill" objectFit="cover"/>
-            }
-            title={ 'Experience' }
+            absoluteChildren={ <SImage src={ BgMesh } alt="" layout="fill" objectFit="cover"/> }
+            title={ t('title') as string }
             number={ 2 }>
-            <SDarkBlueLight/>
-            <SBlueLight/>
-            <SPinkLight/>
+            <SDarkBlueLight  $offsetY={positionY} $offsetX={positionX} />
+            <SBlueLight  $offsetY={positionY} $offsetX={positionX} />
+            <SPinkLight   $offsetY={positionY} $offsetX={positionX} />
             <TimelineWrapper>
                 { STEP_TRANSLATION_KEYS.map((key, index) => {
-                    return <STimelineStep key={ key }>
+                    return <STimelineStep key={ key } initial={{opacity: 0}}
+                                          whileInView={{opacity: 1}}
+                                          viewport={{ once: true }}
+                                          transition={{ ease: "easeOut", duration: 0.5, delay: 1 }}>
                         <SCompany>{ t(`${ key }.company`) }</SCompany>
                         <SPositionWrapper>
                             <SMarkerWrapper>
-                                <STimeFrame>{ t(`${ key }.timeFrame`) }</STimeFrame>
+                                <STimeFrame>{ t(`${ key }.timeLabel`) }</STimeFrame>
                                 <SStepMarker outlined={ index === 0 }/>
                             </SMarkerWrapper>
                             <SPosition>{ t(`${ key }.position`) }</SPosition>
                         </SPositionWrapper>
+                        <STimeRange>{ t(`${ key }.timeFrom`) + ' - ' + t(`${ key }.timeTo`) }</STimeRange>
                         <SListTitle>{ t(`${ key }.listTitle`) }</SListTitle>
                         { STEP_TRANSLATION_LIST_ITEMS_KEYS.map(listItemKey => {
                             return <SListItem key={ listItemKey }>

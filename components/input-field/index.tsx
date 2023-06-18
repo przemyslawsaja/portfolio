@@ -1,6 +1,7 @@
-import { ComponentProps, LegacyRef } from "react";
+import { ComponentProps } from "react";
 import { styled } from "@/theme";
 import { ValidationError } from "@formspree/react";
+import { hexToRGBA } from "@/utils/hexToRGBA";
 
 const SInput = styled.input`
   height: 3rem;
@@ -8,14 +9,32 @@ const SInput = styled.input`
   padding-left: 1rem;
   outline: none;
   border: none;
-  background: ${({theme}) => theme.colors.gray.light};
+  caret-color: ${ ({ theme }) => theme.colors.primary.main };
+  color: ${ ({ theme }) => theme.colors.gray.lightest };
+  background: ${ ({ theme }) => hexToRGBA(theme.colors.secondary.light, 0.4) };
   transition: ${ ({ theme }) => theme.transition.SMOOTH };
-  
+
   &:focus {
-    background: ${({theme}) => theme.colors.gray.lightest};
+    background: ${ ({ theme }) => hexToRGBA(theme.colors.secondary.light, 0.6) };
   }
 `
 
+const STextArea = styled.textarea`
+  min-height: 10rem;
+  border-radius: 1rem;
+  padding: 1rem;
+  outline: none;
+  border: none;
+  caret-color: ${ ({ theme }) => theme.colors.primary.main };
+  color: ${ ({ theme }) => theme.colors.gray.lightest };
+  background: ${ ({ theme }) => hexToRGBA(theme.colors.secondary.light, 0.4) };
+  transition: ${ ({ theme }) => theme.transition.SMOOTH };
+  resize: none;
+
+  &:focus {
+    background: ${ ({ theme }) => hexToRGBA(theme.colors.secondary.light, 0.6) };
+  }
+`
 const SInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -23,27 +42,43 @@ const SInputWrapper = styled.div`
 `
 
 const SLabel = styled.label`
-  font-size: ${({theme}) => theme.text.size.small200};
-  color: ${({theme}) => theme.colors.gray.main};
+  font-size: ${ ({ theme }) => theme.text.size.small200 };
+  color: ${ ({ theme }) => theme.colors.gray.main };
   letter-spacing: ${ ({ theme }) => theme.text.spacing.widest };
   padding-left: 0.5rem;
 `
 
+export enum InputType {
+    TEXT = 'text',
+    TEXT_AREA = 'textarea',
+}
+
+type defaultInputsProps =
+    ComponentProps<'input'> &
+    ComponentProps<'textarea'>;
+
 type Props = {
     label: string
     errors: any[]
-} & Omit<ComponentProps<'input'>, 'ref'>
+    inputType?: InputType
+} & Omit<defaultInputsProps, 'ref'>
 
-export const InputField = ({ name, label, errors, ...inputProps }: Props) => {
+export const InputField = ({ inputType = InputType.TEXT, name, label, errors, ...inputProps }: Props) => {
+
+    const InputMap = {
+        [InputType.TEXT]: <SInput { ...{ name } } { ...inputProps } />,
+        [InputType.TEXT_AREA]: <STextArea { ...{ name } } { ...inputProps } />
+    }
+
     return <SInputWrapper>
-        <SLabel htmlFor={name}>
+        <SLabel htmlFor={ name }>
             { label }
         </SLabel>
-        <SInput {...{name}} {...inputProps} />
+        { InputMap[inputType] }
         <ValidationError
-            prefix={name}
-            field={name}
-            errors={errors}
+            prefix={ name }
+            field={ name }
+            errors={ errors }
         />
     </SInputWrapper>
 }

@@ -1,5 +1,6 @@
-import { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
+import {createContext, Dispatch, ReactNode, SetStateAction, Suspense, useContext, useState} from "react";
 import { AppContext } from "next/app";
+import { LoadingScreen } from "@/components/loading-screen";
 
 type Props = {
     children: ReactNode;
@@ -10,19 +11,19 @@ type AppContextInterface = {
     setLoading: Dispatch<SetStateAction<boolean>>;
 } ;
 
-const AppContext = createContext<AppContextInterface>({
-    loading: true,
+const ApplicationContext = createContext<AppContextInterface>({
+    loading: false,
     setLoading: () => {},
 });
-
-const MyContext = createContext({ });
 
 export const AppWrapper = ({ children }: Props) => {
     const [loading, setLoading] = useState(true);
 
-    return <AppContext.Provider>
-
-        <AppContext.
+    return <ApplicationContext.Provider value={{ loading, setLoading }}>
+        <Suspense fallback={<LoadingScreen />}>
+            {children}
+        </Suspense>
+    </ApplicationContext.Provider>
 };
 
-export const useAppContext = () => useContext(AppContext);
+export const useAppContext = () => useContext(ApplicationContext);

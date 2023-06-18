@@ -1,0 +1,43 @@
+{
+  "title": "Experience",
+  "bottom-timeframe": "January 2018",
+  "designer-step": {
+    "company": "Freelance",
+    "position": "Graphic designer",
+    "timeLabel": "Jan 2021",
+    "timeTo": "January 2021",
+    "timeFrom": "January 2018",
+    "listTitle": "Designs",
+    "list": {
+      "item1": "Websites & Mobile applications",
+      "item2": "Banners, posters, leaflets, business cards etc.",
+      "item3": "Social media posts"
+    }
+  },
+  "junior-step": {
+    "company": "PushPushGo",
+    "position": "Junior Frontend Developer",
+    "timeLabel": "Jun 2021",
+    "timeTo": "June 2022",
+    "timeFrom": "January 2021",
+    "listTitle": "Projects",
+    "list": {
+      "item1": "Push notifications management web app (React, Typescript, Mobx, Storybook, Jest, SCSS )",
+      "item2": "Dedicated customer department app ( React, Material UI, SWR, Javascript, Jest, Blueprint)",
+      "item3": "Offical company's website (DatoCMS, graphql, Gatsby, SCSS)"
+    }
+  },
+  "mid-step": {
+    "company": "Mobile Reality",
+    "position": "Mid Frontend Developer",
+    "timeLabel": "Present",
+    "timeTo": "Present",
+    "timeFrom": "June 2022",
+    "listTitle": "Projects",
+    "list": {
+      "item1": "NFT's marketplace ( React, Next.js, Flow, Typescript, SWR, Styled-components, Storybook, Jest))",
+      "item2": "Music web platform ( React, Material UI, SWR, Javascript, Styled-components, Jest)",
+      "item3": "Objects management web platform ( Vue2/Vue3, Typescript, Tailwind)"
+    }
+  }
+}

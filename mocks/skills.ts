@@ -1,11 +1,12 @@
-export type technology = {
+export type Skill = {
     label: string,
     percentage: number
 }
 
-export const CORE_TECHNOLOGIES: technology[] = [
+export const CORE_SKILLS: Skill[] = [
     { label: 'Typescript', percentage: 85 },
     { label: 'React', percentage: 90 },
+    { label: 'React Native', percentage: 30 },
     { label: 'Next', percentage: 75 },
     { label: 'Vue2 / Vue3', percentage: 60 },
     { label: 'Mobx', percentage: 90 },

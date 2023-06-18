@@ -1,0 +1,16 @@
+{
+  "title": "Work",
+  "work-title": "GymLab",
+  "work-description": "Vivamus interdum in sem at semper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In vehicula sit amet velit non in sem at semper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In vehicula sit amet velit non in sem at semper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+  "work-subtitle": "Technologies",
+  "technology-1": "React",
+  "technology-2": "Typescript",
+  "technology-3": "Styled-components",
+  "technology-4": "Mobx",
+  "technology-5": "Nodejs",
+  "technology-6": "Typescript",
+  "technology-7": "Styled-components",
+  "technology-8": "Mobx",
+  "technology-9": "Nodejs",
+  "technology-10": "Express"
+}

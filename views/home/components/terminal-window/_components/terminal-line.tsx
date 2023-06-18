@@ -1,5 +1,5 @@
 import { styled } from "@/theme";
-import { TerminalHtmlTag } from "@/views/home/_components/terminal-window/_components/terminal-html-tag";
+import { TerminalHtmlTag } from "@/views/home/components/terminal-window/_components/terminal-html-tag";
 import { motion, useInView } from "framer-motion";
 import { fadeIn, FadeInProps } from "@/constants/motion";
 import { useRef } from "react";
